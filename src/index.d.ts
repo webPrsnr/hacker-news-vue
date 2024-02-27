@@ -1,4 +1,4 @@
-interface CommentResponse {
+export interface CommentResponse {
   by: string
   id: number
   parent: number
@@ -7,7 +7,7 @@ interface CommentResponse {
   type: 'comment'
 }
 
-interface StoryResponse {
+export interface StoryResponse {
   by: string
   descendants: number
   id: number

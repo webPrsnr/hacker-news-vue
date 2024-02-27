@@ -1,4 +1,5 @@
 import http from './http'
+import type { StoryResponse } from '@/index'
 
 const stories = {
   async newStories(): Promise<number[]> {
