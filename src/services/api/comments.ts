@@ -1,4 +1,5 @@
 import http from './http'
+import type { CommentResponse } from '@/index'
 
 const comments = {
   async comment(id: number): Promise<CommentResponse> {
