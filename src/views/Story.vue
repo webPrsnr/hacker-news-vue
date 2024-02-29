@@ -2,15 +2,9 @@
 import { Header } from '@/components/home'
 import { useLoadStory } from '@/composables/useLoadStory'
 import LoadingDots from '@/components/ui/loading/LoadingDots.vue'
-import { loadComments } from '@/lib/loadComments'
 import BackButton from '@/components/story/BackButton.vue'
 import AboutSection from '@/components/story/AboutSection.vue'
 import CommentsSection from '@/components/story/CommentsSection.vue'
-
-// const comments = shallowRef<{
-//   title: any
-//   children: any[] | undefined
-// }[]>([])
 
 const { isLoading, story } = useLoadStory()
 </script>
