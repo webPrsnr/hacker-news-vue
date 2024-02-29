@@ -25,7 +25,7 @@ function clickHandler() {
     </div>
 
     <div v-if="isExpanded">
-      <Comments v-for="child in node.children" :key="child.title" :node="child" :depth="depth + 1" />
+      <Comment v-for="child in node.children" :key="child.title" :node="child" :depth="depth + 1" />
     </div>
   </div>
 </template>
