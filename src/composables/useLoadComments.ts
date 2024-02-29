@@ -1,4 +1,4 @@
-import { shallowRef, toValue, watchEffect } from 'vue'
+import { shallowRef, watchEffect } from 'vue'
 import { useLoader } from './useLoader'
 import api from '@/services/api'
 
