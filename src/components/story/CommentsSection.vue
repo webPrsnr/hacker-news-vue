@@ -17,7 +17,7 @@ const { comments, isLoading } = useLoadComments(props.kids)
       <Comment :node="comment" />
     </template>
   </div>
-  <p v-else class="text-muted-foreground pt-4">
+  <p v-else class="text-muted-foreground pt-10">
     There are currently no comments for this story.
   </p>
 </template>
