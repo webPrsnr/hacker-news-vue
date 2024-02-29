@@ -1,9 +1,9 @@
 import { computed, ref } from 'vue'
 
-const loaderFlag = ref(false)
-const isLoading = computed(() => loaderFlag.value)
-
 export function useLoader() {
+  const loaderFlag = ref(false)
+  const isLoading = computed(() => loaderFlag.value)
+
   const startLoading = () => {
     loaderFlag.value = true
   }

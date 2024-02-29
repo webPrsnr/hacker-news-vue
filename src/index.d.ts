@@ -5,6 +5,7 @@ export interface CommentResponse {
   text: string
   time: number
   type: 'comment'
+  kids: number[]
 }
 
 export interface StoryResponse {
