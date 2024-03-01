@@ -1,4 +1,4 @@
-import { shallowRef, watchEffect } from 'vue'
+import { ref, shallowRef, watch } from 'vue'
 import type { StoryResponse } from '..'
 import { useLoader } from './useLoader'
 import api from '@/services/api'
@@ -12,7 +12,9 @@ export function useLoadStories() {
 
   const dataStories = shallowRef<number[]>([])
 
-  watchEffect(async () => {
+  const toggleFlag = ref(false)
+
+  watch(toggleFlag, async () => {
     storiesList.value = []
     startLoading()
 
@@ -24,7 +26,7 @@ export function useLoadStories() {
     catch (error) {
       console.error(error)
     }
-  })
+  }, { immediate: true })
 
   async function paginationHandler(page: number) {
     startLoading()
@@ -38,5 +40,9 @@ export function useLoadStories() {
     })
   }
 
-  return { storiesList, isLoading, paginationHandler }
+  const refreshHandler = () => {
+    toggleFlag.value = !toggleFlag.value
+  }
+
+  return { storiesList, isLoading, paginationHandler, refreshHandler }
 }
