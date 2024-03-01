@@ -1,18 +1,24 @@
-import { shallowRef, watchEffect } from 'vue'
+import { ref, shallowRef, watch } from 'vue'
 import { useLoader } from './useLoader'
 import api from '@/services/api'
 
 export function useLoadComments(kids: number[] | undefined) {
   const comments = shallowRef<any>([])
+
   const { isLoading, startLoading, stopLoading } = useLoader()
 
-  if (kids === undefined)
-    return { comments: false }
+  const flagRefresh = ref(false)
 
-  watchEffect(async () => {
+  watch(flagRefresh, async () => {
     try {
       startLoading()
-      comments.value = await loadComments(kids)
+      if (kids === undefined) {
+        await new Promise(resolve => setTimeout(() => {
+          comments.value = []
+          resolve(0)
+        }, 1000))
+      }
+      else { comments.value = await loadComments(kids) }
     }
     catch (error) {
       stopLoading()
@@ -20,9 +26,8 @@ export function useLoadComments(kids: number[] | undefined) {
     }
     finally {
       stopLoading()
-    //   console.log(comments.value)
     }
-  })
+  }, { immediate: true })
 
   async function loadComments(arr: number[]) {
     return Promise.all(arr!.map(async el => await fetchData(el)))
@@ -40,5 +45,9 @@ export function useLoadComments(kids: number[] | undefined) {
     return { title: data.text, children: fetchArray, by: data.by, time: data.time }
   }
 
-  return { comments, isLoading }
+  function refreshHandler() {
+    flagRefresh.value = !flagRefresh.value
+  }
+
+  return { comments, isLoading, refreshHandler }
 }
