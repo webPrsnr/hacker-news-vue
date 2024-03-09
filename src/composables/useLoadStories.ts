@@ -1,48 +1,31 @@
-import { ref, shallowRef, watch } from 'vue'
+import { ref, shallowRef, watchEffect } from 'vue'
 import type { StoryResponse } from '..'
 import { useLoader } from './useLoader'
 import api from '@/services/api'
 
-const ITEMS_PER_PAGE = 15
-
 export function useLoadStories() {
   const { isLoading, startLoading, stopLoading } = useLoader()
+  const rawStories = shallowRef<number[]>([])
+  const resultData = shallowRef<StoryResponse[]>([])
 
-  const storiesList = shallowRef<StoryResponse[]>([])
+  watchEffect(async () => {
+    getNewStories()
+  })
 
-  const dataStories = shallowRef<number[]>([])
-
-  const toggleFlag = ref(false)
-
-  watch(toggleFlag, async () => {
-    storiesList.value = []
-    startLoading()
-
+  async function getNewStories() {
     try {
-      dataStories.value = await api.stories.newStories()
+      startLoading()
+      rawStories.value = await api.stories.newStories()
 
-      await paginationHandler(1)
+      const result = await Promise.all(rawStories.value.map(async id => await api.stories.story(id)))
+      resultData.value = result
     }
     catch (error) {
       console.error(error)
     }
-  }, { immediate: true })
-
-  async function paginationHandler(page: number) {
-    startLoading()
-    const firstIndex = page === 1 ? 1 : ((page - 1) * ITEMS_PER_PAGE)
-    const lastIndex = firstIndex + ITEMS_PER_PAGE + 1
-
-    const data = dataStories.value.slice(firstIndex, lastIndex)
-    Promise.all(data.map(async id => await api.stories.story(id))).then((data) => {
-      storiesList.value = data
+    finally {
       stopLoading()
-    })
+    }
   }
-
-  const refreshHandler = () => {
-    toggleFlag.value = !toggleFlag.value
-  }
-
-  return { storiesList, isLoading, paginationHandler, refreshHandler }
+  return { resultData, getNewStories, isLoading }
 }

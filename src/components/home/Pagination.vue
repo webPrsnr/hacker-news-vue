@@ -6,13 +6,15 @@ const emits = defineEmits<{
   refreshClickHandler: [page: number]
 }>()
 
+const model = defineModel<number | undefined>()
+
 function handleClick(item: number) {
   emits('refreshClickHandler', item)
 }
 </script>
 
 <template>
-  <Pagination v-slot="{ page }" :total="100" :sibling-count="1" show-edges :default-page="1" :items-per-page="15" class="flex justify-center py-4">
+  <Pagination v-slot="{ page }" v-model:page="model" :total="100" :sibling-count="1" show-edges :default-page="1" :items-per-page="15" class="flex justify-center py-4">
     <PaginationList v-slot="{ items }" class="flex items-center gap-1">
       <PaginationFirst class="w-8 h-8 lg:w-10 lg:h-10" />
       <PaginationPrev class="w-8 h-8 lg:w-10 lg:h-10" />
