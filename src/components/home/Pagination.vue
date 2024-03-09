@@ -2,12 +2,12 @@
 import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination'
 import { Button } from '@/components/ui/button'
 
-const props = defineProps<{
-  paginationHandler: (page: number) => Promise<void>
+const emits = defineEmits<{
+  refreshClickHandler: [page: number]
 }>()
 
 function handleClick(item: number) {
-  props.paginationHandler(item)
+  emits('refreshClickHandler', item)
 }
 </script>
 

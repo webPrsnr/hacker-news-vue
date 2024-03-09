@@ -6,6 +6,10 @@ import Pagination from '@/components/home/Pagination.vue'
 import RefreshButton from '@/components/shared/RefreshButton.vue'
 
 const { storiesList, isLoading, paginationHandler, refreshHandler } = useLoadStories()
+
+function refreshClickHandler(page: number) {
+  paginationHandler(page)
+}
 </script>
 
 <template>
@@ -18,7 +22,7 @@ const { storiesList, isLoading, paginationHandler, refreshHandler } = useLoadSto
         </Article>
       </div>
     </div>
-    <Pagination :pagination-handler="paginationHandler" />
+    <Pagination @refresh-click-handler="refreshClickHandler" />
   </section>
   <RefreshButton :is-loading="isLoading" @click="refreshHandler" />
 </template>
