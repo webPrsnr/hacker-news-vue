@@ -1,10 +1,8 @@
-import { type ShallowRef, ref, shallowRef, watch, watchEffect } from 'vue'
+import { type ShallowRef, ref, shallowRef, watchEffect } from 'vue'
 import type { StoryResponse } from '..'
 
-const ITEMS_PER_PAGE = 15
-
 export function usePaginate(storiesRaw: ShallowRef<StoryResponse[]>) {
-  const rawData = shallowRef<StoryResponse[]>([])
+  const storiesOnPage = shallowRef<StoryResponse[]>([])
   const currentPage = ref(1)
 
   watchEffect(() => {
@@ -12,15 +10,23 @@ export function usePaginate(storiesRaw: ShallowRef<StoryResponse[]>) {
   })
 
   function getPageSlice(page: number) {
-    rawData.value = []
-    const firstIndex = page === 1 ? 1 : ((page - 1) * ITEMS_PER_PAGE)
-    const lastIndex = firstIndex + ITEMS_PER_PAGE + 1
+    storiesOnPage.value = []
 
-    const data = storiesRaw.value.slice(firstIndex, lastIndex)
+    const stories = getSlicedStories(storiesRaw.value, page)
 
-    rawData.value = data
+    storiesOnPage.value = stories
     currentPage.value = page
   }
 
-  return { getPageSlice, rawData, currentPage }
+  return { getPageSlice, storiesOnPage, currentPage }
+}
+
+const ITEMS_PER_PAGE = 15
+export function getSlicedStories(stories: StoryResponse[], neededPage: number) {
+  const firstIndex = neededPage === 1 ? neededPage : ((neededPage - 1) * ITEMS_PER_PAGE)
+  const lastindex = firstIndex + ITEMS_PER_PAGE + 1
+
+  const data = stories.slice(firstIndex, lastindex)
+
+  return data
 }
