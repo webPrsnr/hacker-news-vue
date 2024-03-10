@@ -12,6 +12,9 @@ const utils = {
   formatTime(time: number) {
     return new Date(time).toLocaleTimeString()
   },
+  isFilledComments(comments: any[]) {
+    return !!comments.length
+  },
 }
 
 export default utils

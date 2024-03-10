@@ -1,4 +1,4 @@
-import { ref, shallowRef, watchEffect } from 'vue'
+import { shallowRef, watchEffect } from 'vue'
 import type { StoryResponse } from '..'
 import { useLoader } from './useLoader'
 import api from '@/services/api'
