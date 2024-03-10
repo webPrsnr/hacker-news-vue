@@ -6,7 +6,7 @@ import api from '@/services/api'
 export function useLoadStories() {
   const { isLoading, startLoading, stopLoading } = useLoader()
   const rawStories = shallowRef<number[]>([])
-  const resultData = shallowRef<StoryResponse[]>([])
+  const resultStories = shallowRef<StoryResponse[]>([])
 
   watchEffect(async () => {
     getNewStories()
@@ -18,7 +18,7 @@ export function useLoadStories() {
       rawStories.value = await api.stories.newStories()
 
       const result = await Promise.all(rawStories.value.map(async id => await api.stories.story(id)))
-      resultData.value = result
+      resultStories.value = result
     }
     catch (error) {
       console.error(error)
@@ -27,5 +27,5 @@ export function useLoadStories() {
       stopLoading()
     }
   }
-  return { resultData, getNewStories, isLoading }
+  return { resultStories, getNewStories, isLoading }
 }
