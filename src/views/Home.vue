@@ -15,7 +15,6 @@ function refreshClickHandler(page: number) {
 
 async function refreshIt() {
   await getNewStories()
-  currentPage.value = 1
 }
 </script>
 

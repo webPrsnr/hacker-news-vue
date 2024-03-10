@@ -6,7 +6,7 @@ export function usePaginate(storiesRaw: ShallowRef<StoryResponse[]>) {
   const currentPage = ref(1)
 
   watchEffect(() => {
-    getPageSlice(1)
+    getPageSlice(currentPage.value)
   })
 
   function getPageSlice(page: number) {
