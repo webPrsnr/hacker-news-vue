@@ -21,7 +21,7 @@ const { isLoading, story, comments, refreshData } = useLoadStory()
               {{ story.title }}
             </h1>
           </div>
-          <AboutSection :by="story.by" :kids="story.kids" :time="story.time" :url="story.url" />
+          <AboutSection v-bind="story" />
         </div>
         <CommentsSection :comments="comments" />
       </div>
