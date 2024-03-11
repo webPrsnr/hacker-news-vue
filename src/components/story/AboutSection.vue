@@ -3,7 +3,7 @@ import utils from './utils'
 import type { StoryResponse } from '@/index'
 
 interface AboutSectionProps extends Pick<StoryResponse, 'by' | 'time' | 'url'> {
-  kids: number[] | undefined
+  kids?: number[]
 }
 
 interface AboutConfig {
