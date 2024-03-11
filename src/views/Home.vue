@@ -23,8 +23,8 @@ async function refreshIt() {
     <div class="mt-7 border-2 border-primary p-1.5 lg:p-3 lg:w-4/5 mx-auto w-full">
       <div class="space-y-1">
         <LoadingDots v-if="isLoading" />
-        <Article v-for="story in storiesOnPage" v-else :id="story.id" :key="story.id" :by="story.by" :score="story.score" :time="story.time">
-          {{ story.title }}
+        <Article v-for="{ by, id, score, time, title } in storiesOnPage" v-else :id="id" :key="id" :by="by" :score="score" :time="time">
+          {{ title }}
         </Article>
       </div>
     </div>
