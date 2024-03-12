@@ -22,8 +22,8 @@ export function useLoadStory() {
 
       startLoading()
       const result = await api.stories.story(Number(id))
-      const data = await loadComments(result.kids || [])
-      story.value = result
+      const { data, totalCount } = await loadComments(result.kids || [])
+      story.value = { ...result, comments: totalCount }
       comments.value = data
     }
     catch (error) {
@@ -43,17 +43,22 @@ export function useLoadStory() {
 }
 
 async function loadComments(arr: number[]) {
-  return Promise.all(arr!.map(async el => await fetchData(el)))
+  // eslint-disable-next-line prefer-const
+  let totalCount = { count: 0 }
+  const data = await Promise.all(arr!.map(async el => await fetchData(el, totalCount)))
+
+  return { data, totalCount: totalCount.count }
 }
 
-async function fetchData(id: number): Promise<any> {
+async function fetchData(id: number, count: any): Promise<any> {
   const data = await api.comments.comment(id)
   let fetchArray
   if (data.kids) {
     fetchArray = await Promise.all(data.kids.map(async (el: number) => {
-      const data = await fetchData(el)
+      const data = await fetchData(el, count)
       return data
     }))
   }
+  count.count++
   return { title: data.text, children: fetchArray, by: data.by, time: data.time }
 }
