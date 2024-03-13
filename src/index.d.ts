@@ -18,4 +18,5 @@ export interface StoryResponse {
   title: string
   type: 'story'
   url: string
+  comments: number
 }

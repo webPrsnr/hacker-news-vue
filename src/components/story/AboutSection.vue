@@ -3,7 +3,7 @@ import utils from './utils'
 import type { StoryResponse } from '@/index'
 
 interface AboutSectionProps extends Pick<StoryResponse, 'by' | 'time' | 'url'> {
-  kids?: number[]
+  comments: number
 }
 
 interface AboutConfig {
@@ -17,7 +17,7 @@ const aboutConfigList: AboutConfig[] = [
   { section: 'by', content: `by ${props.by}` },
   { section: 'url', content: utils.getHost(props.url) },
   { section: 'time', content: utils.formatTime(props.time) },
-  { section: 'kids', content: utils.calculateComments(props.kids) },
+  { section: 'comments', content: `${props.comments} comments` },
 ]
 
 function isUrl(section: AboutConfig['section']) {
