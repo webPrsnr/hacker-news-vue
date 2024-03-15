@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { toRefs } from 'vue'
 import utils from './utils'
 import type { StoryResponse } from '@/index'
 
@@ -12,12 +13,13 @@ interface AboutConfig {
 }
 
 const props = defineProps<AboutSectionProps>()
+const { by, comments, time, url } = toRefs(props)
 
 const aboutConfigList: AboutConfig[] = [
-  { section: 'by', content: `by ${props.by}` },
-  { section: 'url', content: utils.getHost(props.url) },
-  { section: 'time', content: utils.formatTime(props.time) },
-  { section: 'comments', content: `${props.comments} comments` },
+  { section: 'by', content: `by ${by.value}` },
+  { section: 'url', content: utils.getHost(url.value) },
+  { section: 'time', content: utils.formatTime(time.value) },
+  { section: 'comments', content: `${comments.value} comments` },
 ]
 
 function isUrl(section: AboutConfig['section']) {
