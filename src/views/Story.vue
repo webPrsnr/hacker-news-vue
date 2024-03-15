@@ -16,7 +16,7 @@ const { isLoading, story, comments, refreshData } = useLoadStory()
       <div v-if="story">
         <div class="border-b border-primary">
           <div class="flex items-center gap-3">
-            <BackButton />
+            <BackButton back-path="home" />
             <h1 class="scroll-mb-20 text-3xl ">
               {{ story.title }}
             </h1>
